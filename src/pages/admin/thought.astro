@@ -1,0 +1,83 @@
+---
+import { onMount } from 'solid-js'; // optional, if you want reactivity
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>New Thought</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/manifest.json">
+  </head>
+  <body style="padding:1rem; font-family: sans-serif;">
+    <h1>New Thought</h1>
+    <form id="thought-form">
+      <textarea name="content" placeholder="What's on your mind?" rows="5" style="width:100%; margin-bottom:1rem;"></textarea>
+      <input type="file" accept="image/*" capture="environment" style="margin-bottom:1rem;" />
+      <button type="submit" style="padding:0.5rem 1rem;">Post</button>
+    </form>
+
+    <script type="module">
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+      const supabaseUrl = 'YOUR_SUPABASE_URL';
+      const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      const form = document.getElementById('thought-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const content = form.content.value.trim();
+        if (!content) {
+          alert("Please type a thought");
+          return;
+        }
+
+        const fileInput = form.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+        let imageUrl = null;
+
+        if (file) {
+          const fileName = `${Date.now()}-${file.name}`;
+          const { error: uploadError } = await supabase.storage
+            .from('thought-images')
+            .upload(fileName, file);
+
+          if (uploadError) {
+            alert("Image upload failed: " + uploadError.message);
+            return;
+          }
+
+          const { data: publicUrl } = supabase.storage
+            .from('thought-images')
+            .getPublicUrl(fileName);
+
+          imageUrl = publicUrl.publicUrl;
+        }
+
+        try {
+          const res = await fetch('https://YOUR_PROJECT.supabase.co/functions/v1/create-thought', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-secret': 'YOUR_SECRET' // same as in your Edge Function
+            },
+            body: JSON.stringify({ content, image: imageUrl })
+          });
+
+          const json = await res.json();
+          if (json.success) {
+            alert('Thought posted successfully!');
+            form.reset();
+          } else {
+            alert('Error posting thought');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Network or server error');
+        }
+      });
+    </script>
+  </body>
+</html>
