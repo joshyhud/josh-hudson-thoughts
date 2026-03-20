@@ -1,4 +1,4 @@
-# josh-hudson-thoughts
+# Thoughts
 
 A PWA for uploading thoughts.
 
