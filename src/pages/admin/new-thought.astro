@@ -64,7 +64,7 @@ import Layout from "../../layouts/Layout.astro"
           const { data, error } = await supabase.auth.getUser()
 
           if (error || !data.user) {
-            window.location.href = '/login'
+            window.location.href = '/josh-hudson-thoughts/login'
             return
           }
         }
@@ -73,7 +73,7 @@ import Layout from "../../layouts/Layout.astro"
 
         logoutBtn?.addEventListener('click', async () => {
           await supabase.auth.signOut()
-          window.location.href = '/login'
+          window.location.href = '/josh-hudson-thoughts/login'
         })
 
         form?.addEventListener('submit', async (event) => {
