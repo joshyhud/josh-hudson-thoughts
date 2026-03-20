@@ -1,46 +1,123 @@
-# Astro Starter Kit: Basics
+# josh-hudson-thoughts
 
-```sh
-npm create astro@latest -- --template basics
+A PWA for uploading thoughts.
+
+This project is built with [Astro](https://astro.build/) and uses [Supabase](https://supabase.com/) for authentication and for calling a Supabase Edge Function to publish a new “thought”. The intended workflow is:
+
+1. Visit the home page to learn what the app is.
+2. Log in with Supabase Auth (`/login`).
+3. Create a new thought from the admin page (`/admin/new-thought`).
+4. The app calls a Supabase Edge Function (`create-thought`) to publish the thought (the code suggests this creates/updates Markdown files for your GitHub Pages site).
+
+## Features
+
+- **Login** via Supabase Auth (email + password).
+- **Protected admin page** that checks for an authenticated user and redirects to `/login` if not signed in.
+- **Create a new thought** with:
+  - Title
+  - Publish date
+  - Meta description
+  - Body content
+  - Optional hero image upload
+- **Optional image upload** to Supabase Storage (bucket: `thought-images`).
+- **Publishes via Supabase Edge Function**: calls `supabase.functions.invoke('create-thought', { body: payload })`.
+
+## Tech stack
+
+- Astro
+- TypeScript
+- SCSS (via `sass-embedded`)
+- Supabase (`@supabase/supabase-js`)
+
+## Requirements
+
+- Node.js **>= 22.12.0** (see `package.json`).
+- A Supabase project with:
+  - Supabase Auth enabled (email/password sign-in)
+  - A Storage bucket named **`thought-images`** (used for hero image uploads)
+  - An Edge Function named **`create-thought`** (invoked when publishing)
+
+## Environment variables
+
+This app creates the Supabase client using **public** environment variables:
+
+- `PUBLIC_SUPABASE_URL`
+- `PUBLIC_SUPABASE_ANON_KEY`
+
+Create a `.env` file in the project root:
+
+```bash
+PUBLIC_SUPABASE_URL="https://YOUR_PROJECT_REF.supabase.co"
+PUBLIC_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+> Note: These are intentionally public variables (Astro exposes `PUBLIC_` variables to the client).
 
-## 🚀 Project Structure
+## Setup
 
-Inside of your Astro project, you'll see the following folders and files:
+Clone and install dependencies:
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+git clone https://github.com/joshyhud/josh-hudson-thoughts.git
+cd josh-hudson-thoughts
+npm install
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Add your `.env` file (see above), then start the dev server:
 
-## 🧞 Commands
+```bash
+npm run dev
+```
 
-All commands are run from the root of the project, from a terminal:
+Astro will start the local server (typically at `http://localhost:4321`).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Scripts
 
-## 👀 Want to learn more?
+All commands run from the repo root:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `npm run dev` — start the local dev server
+- `npm run build` — build for production (output in `dist/`)
+- `npm run preview` — preview the production build locally
+- `npm run astro ...` — run Astro CLI commands
+
+## Pages / routes
+
+- `/` — Home page / project description
+- `/login` — Login form (Supabase Auth)
+- `/admin/new-thought` — Create and publish a thought (requires login)
+
+## Supabase notes
+
+### Storage bucket
+
+The publish flow uploads images to a bucket named `thought-images` and uses a path like:
+
+- `thought-images/<slug>-<timestamp>.<ext>`
+
+Make sure that bucket exists and your policies allow uploads for authenticated users (or whichever access model you prefer).
+
+### Edge Function (`create-thought`)
+
+Publishing calls:
+
+```js
+supabase.functions.invoke("create-thought", { body: payload });
+```
+
+So you’ll need to have a Supabase Edge Function deployed with that name, and it should accept a JSON payload like:
+
+```json
+{
+  "title": "...",
+  "description": "...",
+  "pubDate": "YYYY-MM-DD",
+  "heroImage": "./img/filename.jpg",
+  "tags": ["..."],
+  "body": "...",
+  "slug": "..."
+}
+```
+
+## License
+
+No license file is currently included in the repository. Add one if you plan to distribute or open-source this project.
