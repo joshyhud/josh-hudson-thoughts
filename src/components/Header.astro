@@ -1,0 +1,13 @@
+---
+---
+
+<header>
+  <nav>
+    <a href="/">Thoughts</a>
+    {Astro.cookies.has('auth') ? (
+      <a href="/logout">Logout</a>
+    ) : (
+      <a href="/login">Login</a>
+    )}
+  </nav>
+</header>
