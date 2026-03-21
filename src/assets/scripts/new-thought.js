@@ -46,33 +46,32 @@ form?.addEventListener("submit", async (event) => {
 
   const slug = slugify(title);
 
-  let heroImage = "";
+  let imageData = null;
   const image = formData.get("image");
 
   if (image instanceof File && image.size > 0) {
     const ext = image.name.split(".").pop()?.toLowerCase() || "jpg";
     const imageName = `${slug}-${Date.now()}.${ext}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("thought-images")
-      .upload(imageName, image, { upsert: false });
-
-    if (uploadError) {
-      message.textContent = uploadError.message;
-      return;
-    }
-
-    heroImage = `./img/${imageName}`;
+    const buffer = await image.arrayBuffer();
+    const base64 = btoa(
+      new Uint8Array(buffer).reduce((s, b) => s + String.fromCharCode(b), ""),
+    );
+    imageData = {
+      base64,
+      name: imageName,
+      type: image.type,
+    };
   }
 
   const payload = {
     title,
     description,
     pubDate,
-    heroImage,
+    heroImage: imageData ? `./img/${imageData.name}` : "",
     tags,
     body,
     slug,
+    imageData,
   };
 
   try {
