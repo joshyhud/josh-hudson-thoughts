@@ -52,11 +52,10 @@ form?.addEventListener("submit", async (event) => {
   if (image instanceof File && image.size > 0) {
     const ext = image.name.split(".").pop()?.toLowerCase() || "jpg";
     const imageName = `${slug}-${Date.now()}.${ext}`;
-    const storagePath = `thought-images/${imageName}`;
 
     const { error: uploadError } = await supabase.storage
       .from("thought-images")
-      .upload(storagePath, image, { upsert: false });
+      .upload(imageName, image, { upsert: false });
 
     if (uploadError) {
       message.textContent = uploadError.message;
