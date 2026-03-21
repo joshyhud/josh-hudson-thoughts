@@ -17,7 +17,7 @@ async function checkUser() {
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data.user) {
-    window.location.href = import.meta.env.BASE_URL + "login";
+    window.location.href = import.meta.env.BASE_URL + "/login";
     return;
   }
 }

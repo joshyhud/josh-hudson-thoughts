@@ -22,5 +22,5 @@ form?.addEventListener("submit", async (event) => {
     return;
   }
 
-  window.location.href = import.meta.env.BASE_URL + "admin/new-thought";
+  window.location.href = import.meta.env.BASE_URL + "/admin/new-thought";
 });
