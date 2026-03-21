@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { supabase } from "../../lib/supabase";
+=======
+import { supabase } from "../../lib/supabase.ts";
+>>>>>>> 9dda20d (new page links)
 
 const form = document.getElementById("login-form");
 const message = document.getElementById("message");
@@ -22,5 +26,9 @@ form?.addEventListener("submit", async (event) => {
     return;
   }
 
+<<<<<<< HEAD
   window.location.href = "/josh-hudson-thoughts/admin/new-thought";
+=======
+  window.location.href = import.meta.env.BASE_URL + "admin/new-thought";
+>>>>>>> 9dda20d (new page links)
 });

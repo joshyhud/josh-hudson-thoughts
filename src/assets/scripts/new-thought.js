@@ -1,4 +1,4 @@
-import { supabase } from "../../lib/supabase";
+import { supabase } from "../../lib/supabase.ts";
 
 const form = document.getElementById("thought-form");
 const message = document.getElementById("message");
@@ -17,7 +17,7 @@ async function checkUser() {
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data.user) {
-    window.location.href = "/josh-hudson-thoughts/login";
+    window.location.href = import.meta.env.BASE_URL + "login";
     return;
   }
 }
@@ -26,7 +26,7 @@ await checkUser();
 
 logoutBtn?.addEventListener("click", async () => {
   await supabase.auth.signOut();
-  window.location.href = "/josh-hudson-thoughts/login";
+  window.location.href = import.meta.env.BASE_URL + "login";
 });
 
 form?.addEventListener("submit", async (event) => {

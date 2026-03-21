@@ -1,11 +1,16 @@
 ---
 import Header from '../components/Header.astro';
 import '../assets/scss/styles.scss';
+<<<<<<< HEAD
+=======
+const base = import.meta.env.BASE_URL;
+>>>>>>> 9dda20d (new page links)
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
+<<<<<<< HEAD
 		<link rel="manifest" href="/manifest.webmanifest" />
 <meta name="theme-color" content="#111111" />
 		<meta charset="UTF-8" />
@@ -14,6 +19,16 @@ import '../assets/scss/styles.scss';
 		<meta name="generator" content={Astro.generator} />
 		<title>Thoughts</title>
 		<link rel="manifest" href="/manifest.json">
+=======
+		<link rel="manifest" href={`${base}manifest.webmanifest`} />
+<meta name="theme-color" content="#111111" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+		<meta name="generator" content={Astro.generator} />
+		<title>Thoughts</title>
+		<link rel="manifest" href={`${base}manifest.json`}>
+>>>>>>> 9dda20d (new page links)
 <meta name="theme-color" content="#000000">
 	</head>
 	<body>

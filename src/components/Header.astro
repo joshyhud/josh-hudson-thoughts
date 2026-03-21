@@ -1,13 +1,14 @@
 ---
+const base = import.meta.env.BASE_URL;
 ---
 
 <header>
   <nav>
-    <a href="/josh-hudson-thoughts">Thoughts</a>
+    <a href={base}>Thoughts</a>
     {Astro.cookies.has('auth') ? (
-      <a href="/josh-hudson-thoughts/logout">Logout</a>
+      <a href={`${base}logout`}>Logout</a>
     ) : (
-      <a href="/login">Login</a>
+      <a href={`${base}login`}>Login</a>
     )}
   </nav>
 </header>

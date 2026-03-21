@@ -6,10 +6,10 @@ import Layout from '../layouts/Layout.astro';
 <Layout>
 
   <section class="access">
-    <img src="/josh-hudson-thoughts/favicon.svg" alt="Thoughts logo" class="logo" />
+    <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="Thoughts logo" class="logo" />
     <h1>Thoughts </h1>
     <p> A PWA where i can log my thoughts and have these update to my github pages sites as MD files</p>
-    <a class="btn primary" href="/josh-hudson-thoughts/login">Log In</a>
+    <a class="btn primary" href={`${import.meta.env.BASE_URL}login`}>Log In</a>
   </section>
 
 </Layout>

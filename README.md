@@ -58,7 +58,7 @@ PUBLIC_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
 Clone and install dependencies:
 
 ```bash
-git clone https://github.com/joshyhud/josh-hudson-thoughts.git
+git clone https://github.com/joshyhud.git
 cd josh-hudson-thoughts
 npm install
 ```
