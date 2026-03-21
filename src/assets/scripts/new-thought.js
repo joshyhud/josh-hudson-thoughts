@@ -60,6 +60,7 @@ form?.addEventListener("submit", async (event) => {
       base64,
       name: imageName,
       type: image.type,
+      path: `src/content/blog/img/${imageName}`,
     };
   }
 
