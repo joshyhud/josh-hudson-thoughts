@@ -7,14 +7,23 @@ const base = import.meta.env.BASE_URL;
 <!doctype html>
 <html lang="en">
 	<head>
-<meta name="theme-color" content="#111111" />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
 		<meta name="generator" content={Astro.generator} />
 		<title>Thoughts</title>
 		<link rel="manifest" href={`${base}manifest.json`}>
-<meta name="theme-color" content="#000000">
+		<meta name="theme-color" content="#000000">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="apple-mobile-web-app-title" content="Thoughts">
+		<link rel="apple-touch-icon" href="/icons/icon-192.png">
+		<script>
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/sw.js');
+			}
+		</script>
+
 	</head>
 	<body>
 		<Header />
