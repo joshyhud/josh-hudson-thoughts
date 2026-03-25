@@ -3,7 +3,7 @@
   "short_name": "Thoughts",
   "description": "A place for Josh's thoughts",
   "id": "/",
-  "start_url": "/",
+  "start_url": "/josh-hudson-thoughts/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
